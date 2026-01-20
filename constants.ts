@@ -73,23 +73,23 @@ export const MOCK_PRODUCTS: Product[] = [
   },
   {
     id: '3',
-    name: 'Designer Clutch Bag',
-    price: 2500,
+    name: 'Luxury Designer Bag',
+    price: 5500,
     category: 'Accessories',
-    image: 'https://images.unsplash.com/photo-1566150905458-1bf1fd113f0d?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80',
     images: [
-      'https://images.unsplash.com/photo-1566150905458-1bf1fd113f0d?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=800&q=80',
       'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=800&q=80'
     ],
-    description: 'Stylish velvet clutch with golden embroidery and a detachable chain strap for versatile styling.',
+    description: 'A masterpiece of structural design and premium leather, this handbag is the ultimate statement accessory for the modern woman.',
     variations: [
       {
         name: 'Color',
         type: 'color',
         options: [
-          { label: '#000000', image: 'https://images.unsplash.com/photo-1566150905458-1bf1fd113f0d?auto=format&fit=crop&w=800&q=80' },
-          { label: '#C0C0C0', image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80' }
+          { label: '#000000', image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80' },
+          { label: '#8B4513', image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=800&q=80' }
         ]
       }
     ]
@@ -147,5 +147,21 @@ export const MOCK_PRODUCTS: Product[] = [
         ]
       }
     ]
+  },
+  {
+    id: '7',
+    name: 'Silk Evening Scarf',
+    price: 850,
+    category: 'Accessories',
+    image: 'https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=800&q=80',
+    description: 'Luxurious silk scarf with botanical prints, adding a touch of sophistication to any outfit.'
+  },
+  {
+    id: '8',
+    name: 'Hand-woven Tote Bag',
+    price: 1800,
+    category: 'Accessories',
+    image: 'https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=800&q=80',
+    description: 'Eco-friendly and stylish, this hand-woven tote is perfect for daily essentials and weekend outings.'
   }
 ];

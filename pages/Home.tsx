@@ -7,6 +7,8 @@ import { MOCK_PRODUCTS, CONTACT_INFO } from '../constants';
 import ProductCard from '../components/ProductCard';
 import QuickViewModal from '../components/QuickViewModal';
 
+const LOGO_URL = "https://ui-avatars.com/api/?name=N&background=065f46&color=fff&font-size=0.5&bold=true";
+
 interface HomeProps {
   addToCart: (p: Product, quantity?: number) => void;
   wishlist: string[];
@@ -34,11 +36,11 @@ const Home: React.FC<HomeProps> = ({ addToCart, wishlist, toggleWishlist }) => {
               {/* Background Orange Splash */}
               <div className="absolute inset-0 bg-[#F59E0B] -translate-x-4 translate-y-4 md:translate-x-12 md:translate-y-12 rounded-[2rem] opacity-90"></div>
               
-              {/* Main Model Image */}
+              {/* Main Model Image - Online Photo */}
               <img 
-                src="hero-bg.jpg" 
+                src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80" 
                 className="relative w-full h-full object-cover rounded-[2rem] shadow-2xl z-20"
-                alt="Summer Fashion"
+                alt="Nashwa Summer Collection"
               />
               
               {/* Floating Element */}
@@ -58,11 +60,11 @@ const Home: React.FC<HomeProps> = ({ addToCart, wishlist, toggleWishlist }) => {
               </h2>
               
               {/* Brand Banner Block with Logo */}
-              <div className="bg-[#F59E0B] inline-block px-10 py-3 md:px-16 md:py-5 mb-8 md:mb-12 shadow-lg">
+              <div className="bg-[#F59E0B] inline-flex px-8 py-8 md:px-12 md:py-10 mb-8 md:mb-12 shadow-lg rounded-[2.5rem] items-center justify-center">
                 <img 
-                  src="nashwa-logo.png" 
-                  alt={CONTACT_INFO.name} 
-                  className="h-12 md:h-20 w-auto brightness-0 invert" 
+                  src={LOGO_URL} 
+                  alt="Nashwa" 
+                  className="h-16 w-16 md:h-24 md:w-24 object-contain rounded-3xl shadow-2xl border-4 border-white/30" 
                 />
               </div>
 
@@ -124,39 +126,6 @@ const Home: React.FC<HomeProps> = ({ addToCart, wishlist, toggleWishlist }) => {
         </div>
       </section>
 
-      {/* Categories Grid */}
-      <section className="max-w-7xl mx-auto px-4 w-full">
-        <div className="flex justify-between items-end mb-10">
-          <div>
-            <h2 className="text-2xl md:text-3xl font-bold mb-2 text-gray-900">Browse by Category</h2>
-            <p className="text-gray-500">Find exactly what you are looking for</p>
-          </div>
-          <Link to="/shop" className="text-[#065F46] font-bold flex items-center gap-1 hover:underline">
-            View All <ArrowRight size={16} />
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {['Clothing', 'Jewelry', 'Accessories', 'Shoes'].map((cat, i) => (
-            <Link 
-              key={cat}
-              to={`/shop?cat=${cat}`}
-              className="relative aspect-[3/4] rounded-2xl overflow-hidden group"
-            >
-              <img 
-                src={MOCK_PRODUCTS.find(p => p.category === cat)?.image} 
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                alt={cat}
-              />
-              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300"></div>
-              <div className="absolute inset-0 p-8 flex flex-col justify-end text-white">
-                <h3 className="text-2xl font-bold mb-2">{cat}</h3>
-                <span className="text-sm uppercase tracking-widest font-medium opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all">Explore Category</span>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
       {/* Featured Products */}
       <section className="max-w-7xl mx-auto px-4 w-full">
         <div className="text-center mb-16">
@@ -174,37 +143,6 @@ const Home: React.FC<HomeProps> = ({ addToCart, wishlist, toggleWishlist }) => {
               onQuickView={setQuickViewProduct}
             />
           ))}
-        </div>
-      </section>
-
-      {/* Promo Section */}
-      <section className="bg-[#065F46] py-20 px-4">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center text-white">
-          <div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Join the Nashwa Elite</h2>
-            <p className="text-lg text-green-100 mb-8 leading-relaxed">
-              Subscribe to our newsletter to receive early access to new collections, exclusive discounts, and fashion styling tips from our experts.
-            </p>
-            <form className="flex flex-col sm:flex-row gap-4" onSubmit={e => e.preventDefault()}>
-              <input 
-                type="email" 
-                placeholder="Your email address"
-                className="flex-grow bg-white/10 border border-white/20 rounded-full px-6 py-4 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white"
-              />
-              <button className="bg-white text-[#065F46] px-8 py-4 rounded-full font-bold hover:bg-green-50 transition-colors">
-                Subscribe Now
-              </button>
-            </form>
-          </div>
-          <div className="relative">
-             <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl">
-               <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1200&q=80" className="w-full h-full object-cover" alt="Lifestyle" />
-             </div>
-             <div className="absolute -bottom-8 -left-8 bg-white p-6 rounded-2xl shadow-xl hidden md:block">
-               <div className="text-[#065F46] font-bold text-3xl mb-1">10k+</div>
-               <div className="text-gray-500 text-sm">Happy Customers</div>
-             </div>
-          </div>
         </div>
       </section>
 

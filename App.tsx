@@ -17,6 +17,8 @@ import Terms from './pages/Terms';
 import Ethics from './pages/Ethics';
 import ShippingPolicy from './pages/ShippingPolicy';
 
+const LOGO_URL = "https://ui-avatars.com/api/?name=N&background=065f46&color=fff&font-size=0.5&bold=true";
+
 // Component to handle scrolling to top on every route change, including category switches
 const ScrollToTop = () => {
   const { pathname, search } = useLocation();
@@ -213,7 +215,7 @@ const App: React.FC = () => {
             <div className="flex flex-col h-full">
               <div className="p-6 bg-[#065F46] text-white flex justify-between items-center">
                 <Link to="/" onClick={() => setIsMenuOpen(false)}>
-                  <img src="nashwa-logo.png" alt={CONTACT_INFO.name} className="h-10 w-auto brightness-0 invert" />
+                  <img src={LOGO_URL} alt={CONTACT_INFO.name} className="h-10 w-10 rounded-xl object-contain shadow-lg" />
                 </Link>
                 <button onClick={() => setIsMenuOpen(false)} className="p-2 hover:bg-white/10 rounded-full"><X size={24} /></button>
               </div>
@@ -254,7 +256,7 @@ const App: React.FC = () => {
           </div>
         </div>
 
-        {/* Header - Enhanced for Desktop */}
+        {/* Header */}
         <header className="bg-[#065F46] text-white sticky top-0 z-50 shadow-xl transition-all duration-500">
           <div className="max-w-7xl mx-auto px-4 h-16 md:h-20 lg:h-24 flex items-center justify-between">
             {/* Left: Desktop Navigation */}
@@ -268,7 +270,6 @@ const App: React.FC = () => {
                   >
                     {nav.name} <ChevronDown size={12} className="group-hover:rotate-180 transition-transform duration-300" />
                   </Link>
-                  {/* Submenu Dropdown */}
                   <div className="absolute top-[90%] left-0 w-56 bg-white shadow-2xl rounded-2xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-full transition-all duration-300 z-[100] border border-gray-100">
                     <div className="p-4">
                       <ul className="space-y-1">
@@ -282,14 +283,6 @@ const App: React.FC = () => {
                             </Link>
                           </li>
                         ))}
-                        <li className="mt-4 pt-4 border-t">
-                          <Link 
-                            to={`/shop?cat=${nav.cat}`} 
-                            className="block px-4 py-2 text-[10px] font-black text-[#065F46] uppercase tracking-widest hover:translate-x-1 transition-transform"
-                          >
-                            View All {nav.name} &rarr;
-                          </Link>
-                        </li>
                       </ul>
                     </div>
                   </div>
@@ -302,15 +295,15 @@ const App: React.FC = () => {
               <button onClick={() => setIsMenuOpen(true)} className="p-2 -ml-1 hover:bg-white/10 rounded-full"><Menu size={28} /></button>
             </div>
 
-            {/* Center: Logo Image */}
+            {/* Center: Logo */}
             <div className="flex-[2] flex justify-center">
               <Link to="/" className="flex flex-col items-center group">
                 <img 
-                  src="nashwa-logo.png" 
+                  src={LOGO_URL} 
                   alt={CONTACT_INFO.name} 
-                  className="h-10 md:h-14 lg:h-16 w-auto brightness-0 invert group-hover:scale-105 transition-transform duration-300" 
+                  className="h-10 w-10 md:h-12 md:w-12 lg:h-14 lg:w-14 rounded-2xl object-contain shadow-2xl border-2 border-white/20 group-hover:scale-105 transition-transform duration-300" 
                 />
-                <span className="text-[7px] md:text-[9px] tracking-[0.4em] opacity-40 uppercase mt-0.5 hidden xs:block font-black">Elegance Defined</span>
+                <span className="text-[7px] md:text-[9px] tracking-[0.4em] opacity-40 uppercase mt-1.5 hidden xs:block font-black">Elegance Defined</span>
               </Link>
             </div>
 
@@ -333,7 +326,7 @@ const App: React.FC = () => {
             </div>
           </div>
 
-          {/* Elegant Search Dropdown */}
+          {/* Search Dropdown */}
           <div ref={searchRef} className={`search-slide-down absolute top-full left-0 w-full bg-white/98 backdrop-blur-2xl shadow-xl overflow-hidden ${isSearchActive ? 'max-h-[500px] border-t opacity-100' : 'max-h-0 opacity-0 pointer-events-none'}`}>
             <div className="max-w-3xl mx-auto px-6 py-4 md:py-6">
               <div className="relative group">
@@ -364,65 +357,6 @@ const App: React.FC = () => {
           </div>
         </header>
 
-        {/* Side Cart Drawer */}
-        <div className={`fixed inset-0 z-[120] transition-opacity duration-500 ${isCartOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsCartOpen(false)}></div>
-          <div className={`absolute right-0 top-0 bottom-0 w-full max-w-[420px] bg-white shadow-2xl transition-transform duration-500 transform ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-            <div className="flex flex-col h-full">
-              <div className="p-6 bg-[#065F46] text-white flex justify-between items-center shadow-lg">
-                <div className="flex items-center gap-3">
-                  <ShoppingBag size={24} className="text-amber-400" />
-                  <span className="text-xl font-bold brand-font uppercase tracking-widest">Shopping Bag</span>
-                  <span className="bg-white/20 px-2 py-0.5 rounded text-[10px] font-black">{cartItemCount}</span>
-                </div>
-                <button onClick={() => setIsCartOpen(false)} className="p-2 hover:bg-white/10 rounded-full transition-colors"><X size={24} /></button>
-              </div>
-
-              <div className="flex-grow overflow-y-auto custom-scrollbar p-6 space-y-6">
-                {cart.length > 0 ? (
-                  cart.map((item, idx) => (
-                    <div key={`${item.id}-${idx}`} className="flex gap-4 group animate-fade-in">
-                      <img src={item.image} className="w-20 h-24 object-cover rounded-xl shadow-sm border border-gray-100" alt={item.name} />
-                      <div className="flex-grow flex flex-col">
-                        <div className="flex justify-between items-start mb-1">
-                          <h4 className="font-bold text-sm text-gray-900 line-clamp-1">{item.name}</h4>
-                          <button onClick={() => removeFromCart(item.id, item.selectedOptions)} className="text-gray-300 hover:text-red-500 transition-colors"><Trash2 size={16} /></button>
-                        </div>
-                        <div className="mt-auto flex justify-between items-center">
-                          <div className="flex items-center gap-4 bg-gray-50 rounded-lg px-2 py-1">
-                            <button onClick={() => updateQuantity(item.id, -1, item.selectedOptions)} className="text-gray-400 hover:text-[#065F46]" disabled={item.quantity <= 1}><Minus size={14} /></button>
-                            <span className="text-xs font-black w-4 text-center">{item.quantity}</span>
-                            <button onClick={() => updateQuantity(item.id, 1, item.selectedOptions)} className="text-gray-400 hover:text-[#065F46]"><Plus size={14} /></button>
-                          </div>
-                          <span className="text-[#065F46] font-black text-sm">৳ {(item.price * item.quantity).toLocaleString()}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <div className="h-full flex flex-col items-center justify-center text-center">
-                    <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-6">
-                      <ShoppingBag size={40} className="text-gray-200" />
-                    </div>
-                    <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">Your bag is empty</p>
-                    <button onClick={() => setIsCartOpen(false)} className="mt-4 text-[#065F46] font-black text-[10px] uppercase underline underline-offset-4 tracking-widest">Start Shopping</button>
-                  </div>
-                )}
-              </div>
-
-              {cart.length > 0 && (
-                <div className="p-6 border-t bg-gray-50 space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs font-black text-gray-400 uppercase tracking-widest">Subtotal</span>
-                    <span className="text-2xl font-black text-[#065F46] brand-font">৳ {cartTotal.toLocaleString()}</span>
-                  </div>
-                  <Link to="/checkout" onClick={() => setIsCartOpen(false)} className="block w-full bg-[#065F46] text-white py-4 rounded-xl font-bold text-center hover:bg-black transition-all shadow-xl uppercase tracking-widest text-xs">Checkout Now</Link>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
         {/* Main Content Area */}
         <main className="flex-grow">
           <Routes>
@@ -446,7 +380,7 @@ const App: React.FC = () => {
           <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16">
             <div className="space-y-6">
               <Link to="/">
-                <img src="nashwa-logo.png" alt={CONTACT_INFO.name} className="h-12 w-auto brightness-0 invert" />
+                <img src={LOGO_URL} alt={CONTACT_INFO.name} className="h-14 w-14 rounded-2xl object-contain shadow-2xl brightness-110" />
               </Link>
               <p className="text-sm md:text-base leading-relaxed opacity-70 font-medium">Nashwa is your premium destination for elegance and style in Bangladesh. Quality handcrafted for the modern woman.</p>
               <div className="flex gap-5">

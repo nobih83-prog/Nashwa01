@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { Mail, Lock, User, ArrowRight, Eye, EyeOff, Facebook, Smartphone } from 'lucide-react';
 import { CONTACT_INFO } from '../constants';
 
+const LOGO_URL = "https://ui-avatars.com/api/?name=N&background=065f46&color=fff&font-size=0.5&bold=true";
+
 interface LoginProps {
   onLogin: (status: boolean) => void;
   isLoggedIn: boolean;
@@ -59,9 +61,9 @@ const Login: React.FC<LoginProps> = ({ onLogin, isLoggedIn }) => {
         {/* Logo Branding */}
         <div className="text-center mb-10">
           <img 
-            src="nashwa-logo.png" 
+            src={LOGO_URL} 
             alt={CONTACT_INFO.name} 
-            className="h-16 md:h-20 w-auto mx-auto mb-2" 
+            className="h-20 w-20 mx-auto mb-4 rounded-3xl shadow-2xl border-4 border-white" 
           />
           <p className="text-gray-500 mt-2 text-sm uppercase tracking-[0.2em] font-medium">Premium Women's Fashion</p>
         </div>
@@ -156,32 +158,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, isLoggedIn }) => {
               )}
             </button>
           </form>
-
-          {/* Social Login Separator */}
-          <div className="relative my-10">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-100"></div>
-            </div>
-            <div className="relative flex justify-center text-xs uppercase tracking-[0.2em] font-bold">
-              <span className="px-4 bg-white text-gray-400">Or continue with</span>
-            </div>
-          </div>
-
-          {/* Social Buttons */}
-          <div className="grid grid-cols-2 gap-4">
-             <button className="flex items-center justify-center gap-2 py-4 px-6 border-2 border-gray-50 rounded-2xl hover:bg-gray-50 transition-all font-bold text-sm text-gray-700 active:scale-95">
-               <Facebook className="text-blue-600" size={20} /> Facebook
-             </button>
-             <button className="flex items-center justify-center gap-2 py-4 px-6 border-2 border-gray-50 rounded-2xl hover:bg-gray-50 transition-all font-bold text-sm text-gray-700 active:scale-95">
-               <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-[10px]">G</div> Google
-             </button>
-          </div>
         </div>
-
-        {/* Support Link */}
-        <p className="text-center mt-10 text-gray-400 text-sm">
-          Having trouble? <a href={`https://wa.me/88${CONTACT_INFO.phone}`} target="_blank" rel="noopener noreferrer" className="text-[#065F46] font-bold hover:underline">Contact Support</a>
-        </p>
       </div>
     </div>
   );
