@@ -1,7 +1,7 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Sparkles, ShieldCheck, Truck, RefreshCcw, User } from 'lucide-react';
+import { ArrowRight, Sparkles, ShieldCheck, Truck, RefreshCcw, User, ChevronRight, ChevronLeft } from 'lucide-react';
 import { Product } from '../types';
 import { MOCK_PRODUCTS, CONTACT_INFO, LOGO_URL } from '../constants';
 import ProductCard from '../components/ProductCard';
@@ -13,85 +13,132 @@ interface HomeProps {
   toggleWishlist: (id: string) => void;
 }
 
+const AD_IMAGES = [
+  {
+    url: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=600&q=80",
+    title: "Special Discount",
+    subtitle: "Up to 30% Off"
+  },
+  {
+    url: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=600&q=80",
+    title: "New Eid Collection",
+    subtitle: "Shop the Heritage"
+  },
+  {
+    url: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=600&q=80",
+    title: "Free Delivery",
+    subtitle: "On orders over 5000"
+  }
+];
+
 const Home: React.FC<HomeProps> = ({ addToCart, wishlist, toggleWishlist }) => {
   const featured = MOCK_PRODUCTS.filter(p => p.isBestSeller).slice(0, 4);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
+  const [currentAdIndex, setCurrentAdIndex] = useState(0);
+
+  // Auto-slide for the Hero Ad
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentAdIndex((prev) => (prev + 1) % AD_IMAGES.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="flex flex-col gap-16 md:gap-32 pb-32">
-      {/* Summer Hero Section */}
+      {/* Enhanced Hero Section with Ad Slider */}
       <section className="relative w-full bg-[#FDF1D3] overflow-hidden">
-        <div className="max-w-[1440px] mx-auto px-6 py-12 md:py-0 min-h-[600px] md:h-[750px] flex flex-col md:flex-row items-center">
+        <div className="max-w-[1440px] mx-auto px-6 py-12 lg:py-0 min-h-[600px] lg:h-[750px] flex flex-col lg:flex-row items-center gap-10">
           
-          <div className="absolute top-20 right-[10%] w-32 h-32 border-8 border-white opacity-20 rotate-12 hidden md:block"></div>
-          <div className="absolute bottom-20 left-[40%] w-40 h-40 border-8 border-white opacity-20 -rotate-12 hidden md:block"></div>
+          <div className="absolute top-20 right-[10%] w-32 h-32 border-8 border-white opacity-20 rotate-12 hidden lg:block"></div>
 
-          {/* Left: Image Area */}
-          <div className="w-full md:w-1/2 relative z-10 h-full flex items-center justify-center">
-            <div className="relative w-full max-w-lg aspect-[4/5] md:aspect-auto md:h-[85%] rounded-[3rem] md:rounded-none overflow-hidden md:overflow-visible">
-              <div className="absolute inset-0 bg-[#F59E0B] -translate-x-6 translate-y-6 md:translate-x-16 md:translate-y-16 rounded-[3rem] opacity-90 shadow-[0_50px_100px_-20px_rgba(245,158,11,0.3)]"></div>
+          {/* Left: Main Hero Image */}
+          <div className="w-full lg:w-[40%] relative z-10 h-full flex items-center justify-center">
+            <div className="relative w-full max-w-md aspect-[4/5] rounded-[3rem] overflow-hidden lg:overflow-visible">
+              <div className="absolute inset-0 bg-[#F59E0B] -translate-x-4 translate-y-4 lg:-translate-x-8 lg:translate-y-8 rounded-[3rem] opacity-90 shadow-2xl"></div>
               <img 
                 src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80" 
-                className="relative w-full h-full object-cover rounded-[3rem] shadow-2xl z-20 border-8 border-white"
+                className="relative w-full h-full object-cover rounded-[3rem] shadow-2xl z-20 border-4 lg:border-8 border-white"
                 alt="Nashwa Summer Collection"
               />
-              <div className="absolute -bottom-12 -right-12 w-32 h-32 md:w-48 md:h-48 z-30 hidden sm:block">
-                <div className="w-full h-full bg-[#065F46] rounded-[2rem] rotate-12 flex items-center justify-center text-white shadow-2xl border-4 border-amber-400">
-                   <Sparkles size={64} className="animate-pulse" />
-                </div>
-              </div>
             </div>
           </div>
 
-          {/* Right: Text Area */}
-          <div className="w-full md:w-1/2 mt-20 md:mt-0 text-center md:text-left z-20 md:pl-20">
-            <div className="max-w-xl">
-              <div className="inline-flex items-center gap-3 bg-amber-400/10 px-4 py-2 rounded-full mb-8 border border-amber-400/20">
+          {/* Middle: Hero Text Area */}
+          <div className="w-full lg:w-[40%] text-center lg:text-left z-20">
+            <div className="max-w-xl mx-auto lg:mx-0">
+              <div className="inline-flex items-center gap-3 bg-amber-400/10 px-4 py-2 rounded-full mb-6 border border-amber-400/20">
                 <Sparkles size={16} className="text-amber-600" />
-                <span className="text-[11px] font-black uppercase tracking-[0.2em] text-amber-700">Luxury Awaits You</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Luxury Awaits You</span>
               </div>
-              <h2 className="script-font text-6xl md:text-8xl lg:text-9xl text-gray-900 mb-8 animate-fade-in-down drop-shadow-xl">
+              <h2 className="script-font text-5xl md:text-7xl lg:text-8xl text-gray-900 mb-6 drop-shadow-xl">
                 Luxe.
               </h2>
               
-              <div className="bg-white inline-flex p-10 mb-12 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.1)] rounded-[3.5rem] items-center justify-center border-4 border-amber-400 transform -rotate-2 hover:rotate-0 transition-all">
+              <div className="bg-white inline-flex p-6 md:p-8 mb-8 shadow-xl rounded-[2.5rem] items-center justify-center border-4 border-amber-400 transform -rotate-2 hover:rotate-0 transition-all">
                 <img 
                   src={LOGO_URL} 
                   alt="Nashwa" 
-                  className="h-24 w-24 md:h-40 md:w-40 object-contain" 
+                  className="h-16 w-16 md:h-24 md:w-24 object-contain" 
                 />
               </div>
 
-              <div className="flex flex-col items-center md:items-start gap-12">
-                <div className="flex flex-wrap justify-center md:justify-start gap-6">
+              <div className="flex flex-col items-center lg:items-start gap-8">
+                <div className="flex flex-wrap justify-center lg:justify-start gap-4">
                   <Link 
                     to="/shop?filter=new" 
-                    className="hero-3d-button bg-[#26B8C5] hover:bg-[#1D8A95] text-white px-10 py-5 rounded-2xl font-black text-xl uppercase tracking-widest transition-all flex items-center gap-3 shadow-2xl active:scale-95"
+                    className="hero-3d-button bg-[#26B8C5] hover:bg-[#1D8A95] text-white px-8 py-4 rounded-xl font-black text-sm uppercase tracking-widest transition-all flex items-center gap-2 shadow-xl active:scale-95"
                   >
                     New Arrivals
                   </Link>
                   <Link 
                     to="/shop?filter=best" 
-                    className="bg-white text-[#065F46] border-4 border-[#065F46] px-10 py-5 rounded-2xl font-black text-xl uppercase tracking-widest hover:bg-[#065F46] hover:text-white transition-all shadow-xl active:scale-95"
+                    className="bg-white text-[#065F46] border-2 border-[#065F46] px-8 py-4 rounded-xl font-black text-sm uppercase tracking-widest hover:bg-[#065F46] hover:text-white transition-all shadow-lg active:scale-95"
                   >
                     Best Sellers
                   </Link>
                 </div>
-                
-                <div className="flex items-center gap-10 text-gray-600">
-                  <div className="flex flex-col items-center md:items-start">
-                    <span className="text-3xl font-black text-[#F59E0B]">4.9/5</span>
-                    <span className="text-[10px] font-black uppercase tracking-[0.3em] opacity-40">User Rating</span>
-                  </div>
-                  <div className="w-px h-12 bg-gray-200"></div>
-                  <div className="flex flex-col items-center md:items-start">
-                    <span className="text-3xl font-black text-[#065F46]">100%</span>
-                    <span className="text-[10px] font-black uppercase tracking-[0.3em] opacity-40">Authentic</span>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
+
+          {/* Right: Promotional Ad Slider */}
+          <div className="w-full lg:w-[20%] h-full flex items-center">
+            <div className="w-full bg-white p-2 rounded-[2rem] shadow-2xl border-2 border-amber-400/30 relative overflow-hidden group animate-fade-in">
+              <div className="absolute top-4 left-4 z-30">
+                <span className="bg-amber-400 text-[#021410] px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest shadow-lg">Exclusive Offer</span>
+              </div>
+              
+              <div className="relative aspect-[9/16] overflow-hidden rounded-[1.5rem]">
+                {AD_IMAGES.map((ad, idx) => (
+                  <div 
+                    key={idx}
+                    className={`absolute inset-0 transition-all duration-1000 ease-in-out transform ${
+                      idx === currentAdIndex ? 'opacity-100 scale-100 translate-x-0' : 'opacity-0 scale-110 translate-x-full pointer-events-none'
+                    }`}
+                  >
+                    <img src={ad.url} className="w-full h-full object-cover" alt={ad.title} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6">
+                      <h4 className="text-white font-black brand-font text-lg mb-1">{ad.title}</h4>
+                      <p className="text-amber-400 font-bold text-xs uppercase tracking-widest">{ad.subtitle}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Slider Controls */}
+              <div className="flex justify-center gap-2 mt-4 pb-2">
+                {AD_IMAGES.map((_, idx) => (
+                  <button 
+                    key={idx} 
+                    onClick={() => setCurrentAdIndex(idx)}
+                    className={`h-1.5 rounded-full transition-all ${idx === currentAdIndex ? 'w-6 bg-[#065F46]' : 'w-2 bg-gray-200 hover:bg-gray-300'}`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 

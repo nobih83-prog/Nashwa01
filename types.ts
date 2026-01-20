@@ -22,6 +22,8 @@ export interface Product {
   variations?: Variation[];
   isNew?: boolean;
   isBestSeller?: boolean;
+  stock: number; // Added for RetailPro
+  sku?: string; // Added for RetailPro
 }
 
 export interface CartItem extends Product {
@@ -44,4 +46,5 @@ export interface Order {
   total: number;
   date: string;
   status: 'Pending' | 'Processing' | 'Shipped' | 'Delivered';
+  paymentMethod?: string;
 }
