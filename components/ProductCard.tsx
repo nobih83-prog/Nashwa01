@@ -21,10 +21,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const isInWishlist = wishlist.includes(product.id);
 
+  const handleAction = (e: React.MouseEvent, action: () => void) => {
+    e.preventDefault();
+    e.stopPropagation();
+    action();
+  };
+
   return (
     <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1">
       <div className="relative aspect-[4/5] overflow-hidden">
-        <Link to={`/product/${product.id}`}>
+        <Link to={`/product/${product.id}`} className="block w-full h-full">
           <img 
             src={product.image} 
             alt={product.name}
@@ -33,15 +39,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </Link>
         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
           <button 
-            onClick={() => onAddToCart(product)}
-            className="bg-white text-gray-900 p-4 rounded-2xl hover:bg-[#065F46] hover:text-white transition-all transform scale-90 group-hover:scale-100 duration-300 shadow-xl"
+            onClick={(e) => handleAction(e, () => onAddToCart(product))}
+            className="bg-white text-gray-900 p-4 rounded-2xl hover:bg-[#065F46] hover:text-white transition-all transform scale-90 group-hover:scale-100 duration-300 shadow-xl z-20"
             title="Add to Cart"
           >
             <ShoppingCart size={22} />
           </button>
           <button 
-            onClick={() => onQuickView?.(product)}
-            className="bg-white text-gray-900 p-4 rounded-2xl hover:bg-[#065F46] hover:text-white transition-all transform scale-90 group-hover:scale-100 duration-300 shadow-xl"
+            onClick={(e) => handleAction(e, () => onQuickView?.(product))}
+            className="bg-white text-gray-900 p-4 rounded-2xl hover:bg-[#065F46] hover:text-white transition-all transform scale-90 group-hover:scale-100 duration-300 shadow-xl z-20"
             title="Quick View"
           >
             <Eye size={22} />
@@ -56,8 +62,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
         {/* Wishlist Button on Card */}
         {onToggleWishlist && (
           <button 
-            onClick={() => onToggleWishlist(product.id)}
-            className={`absolute top-4 right-4 p-2.5 rounded-full shadow-md transition-all z-10 ${
+            onClick={(e) => handleAction(e, () => onToggleWishlist(product.id))}
+            className={`absolute top-4 right-4 p-2.5 rounded-full shadow-md transition-all z-20 ${
               isInWishlist ? 'bg-[#065F46] text-white' : 'bg-white/95 text-gray-400 hover:text-red-500'
             }`}
           >

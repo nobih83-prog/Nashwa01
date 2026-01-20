@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { HashRouter, Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 import { ShoppingCart, Menu, X, Search, User, Phone, Mail, MapPin, Instagram, Facebook, MessageCircle, ArrowUp, Heart, Sparkles, Home as HomeIcon, ShoppingBag, History, RotateCcw, ChevronRight, Trash2, Minus, Plus, LayoutDashboard, ChevronDown } from 'lucide-react';
 import { Product, CartItem, Order } from './types';
-import { MOCK_PRODUCTS, CONTACT_INFO, COLORS } from './constants';
+import { MOCK_PRODUCTS, CONTACT_INFO, COLORS, LOGO_URL } from './constants';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import Cart from './pages/Cart';
@@ -16,8 +16,6 @@ import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import Ethics from './pages/Ethics';
 import ShippingPolicy from './pages/ShippingPolicy';
-
-const LOGO_URL = "https://ui-avatars.com/api/?name=N&background=065f46&color=fff&font-size=0.5&bold=true";
 
 // Component to handle scrolling to top on every route change, including category switches
 const ScrollToTop = () => {
@@ -215,7 +213,7 @@ const App: React.FC = () => {
             <div className="flex flex-col h-full">
               <div className="p-6 bg-[#065F46] text-white flex justify-between items-center">
                 <Link to="/" onClick={() => setIsMenuOpen(false)}>
-                  <img src={LOGO_URL} alt={CONTACT_INFO.name} className="h-10 w-10 rounded-xl object-contain shadow-lg" />
+                  <img src={LOGO_URL} alt={CONTACT_INFO.name} className="h-10 w-10 rounded-full object-contain shadow-lg border-2 border-amber-400" />
                 </Link>
                 <button onClick={() => setIsMenuOpen(false)} className="p-2 hover:bg-white/10 rounded-full"><X size={24} /></button>
               </div>
@@ -233,25 +231,7 @@ const App: React.FC = () => {
                     </Link></li>
                   </ul>
                 </div>
-                <div className="space-y-4">
-                  <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 border-b pb-2">Collections</h4>
-                  <ul className="space-y-4">
-                    {['Clothing', 'Jewelry', 'Accessories', 'Shoes'].map(cat => (
-                      <li key={cat}><Link to={`/shop?cat=${cat}`} onClick={() => setIsMenuOpen(false)} className="flex items-center justify-between group py-1">
-                        <span className="text-sm font-bold uppercase tracking-widest group-hover:text-[#065F46]">{cat}</span>
-                        <ChevronRight size={14} className="text-gray-300 group-hover:text-[#065F46]" />
-                      </Link></li>
-                    ))}
-                  </ul>
-                </div>
               </nav>
-              <div className="p-6 bg-gray-50 border-t">
-                <Link to="/admin" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-3 text-[#065F46] font-black text-xs uppercase tracking-widest mb-4">
-                  <LayoutDashboard size={18} /> Admin Backend
-                </Link>
-                <div className="text-gray-400 text-[10px] uppercase font-bold tracking-widest">Contact Support</div>
-                <a href={`tel:${CONTACT_INFO.phone}`} className="mt-2 block text-sm font-bold text-gray-600 hover:text-[#065F46] transition-colors">{CONTACT_INFO.phone}</a>
-              </div>
             </div>
           </div>
         </div>
@@ -259,7 +239,7 @@ const App: React.FC = () => {
         {/* Header */}
         <header className="bg-[#065F46] text-white sticky top-0 z-50 shadow-xl transition-all duration-500">
           <div className="max-w-7xl mx-auto px-4 h-16 md:h-20 lg:h-24 flex items-center justify-between">
-            {/* Left: Desktop Navigation */}
+            {/* Left Desktop Nav */}
             <div className="hidden lg:flex items-center gap-8 flex-1">
               <Link to="/" className="text-[11px] font-black uppercase tracking-widest hover:text-amber-400 transition-colors">Home</Link>
               {navigation.map((nav) => (
@@ -290,74 +270,115 @@ const App: React.FC = () => {
               ))}
             </div>
 
-            {/* Left: Mobile Toggle */}
             <div className="lg:hidden flex-1">
               <button onClick={() => setIsMenuOpen(true)} className="p-2 -ml-1 hover:bg-white/10 rounded-full"><Menu size={28} /></button>
             </div>
 
-            {/* Center: Logo */}
+            {/* Logo Center */}
             <div className="flex-[2] flex justify-center">
               <Link to="/" className="flex flex-col items-center group">
                 <img 
                   src={LOGO_URL} 
                   alt={CONTACT_INFO.name} 
-                  className="h-10 w-10 md:h-12 md:w-12 lg:h-14 lg:w-14 rounded-2xl object-contain shadow-2xl border-2 border-white/20 group-hover:scale-105 transition-transform duration-300" 
+                  className="h-10 w-10 md:h-12 md:w-12 lg:h-14 lg:w-14 rounded-full object-contain shadow-2xl border-2 border-amber-400 bg-white group-hover:scale-110 transition-transform duration-300" 
                 />
-                <span className="text-[7px] md:text-[9px] tracking-[0.4em] opacity-40 uppercase mt-1.5 hidden xs:block font-black">Elegance Defined</span>
+                <span className="text-[7px] md:text-[9px] tracking-[0.4em] opacity-40 uppercase mt-1.5 font-black">Fashion House</span>
               </Link>
             </div>
 
-            {/* Right: Actions */}
             <div className="flex-1 flex items-center justify-end gap-1 md:gap-3">
               <button 
                 onClick={() => setIsSearchActive(!isSearchActive)}
-                className={`flex items-center gap-2 p-2 md:p-2.5 rounded-xl transition-all transform hover:scale-105 border ${isSearchActive ? 'bg-amber-400 text-[#065F46] border-amber-400' : 'hover:bg-white/10 border-transparent'}`}
+                className={`p-2 md:p-2.5 rounded-xl transition-all transform hover:scale-105 ${isSearchActive ? 'bg-amber-400 text-[#065F46]' : 'hover:bg-white/10'}`}
               >
                 <Search size={20} />
-                <span className="text-[10px] font-black uppercase tracking-widest hidden xl:block">Search</span>
               </button>
               
-              <Link to="/wishlist" className="relative p-2 md:p-2.5 hover:bg-white/10 rounded-xl text-white transition-all transform hover:scale-105 hidden sm:flex">
+              <Link to="/wishlist" className="relative p-2 md:p-2.5 hover:bg-white/10 rounded-xl transition-all">
                 <Heart size={20} />
                 {wishlist.length > 0 && <span className="absolute top-0 right-0 bg-amber-500 text-white text-[8px] font-black h-4 w-4 flex items-center justify-center rounded-full shadow-md">{wishlist.length}</span>}
               </Link>
               
-              <Link to="/login" className="p-2 md:p-2.5 hover:bg-white/10 rounded-xl text-white transform hover:scale-105 transition-all"><User size={20} /></Link>
+              <Link to="/login" className="p-2 md:p-2.5 hover:bg-white/10 rounded-xl transform hover:scale-105 transition-all"><User size={20} /></Link>
             </div>
           </div>
 
-          {/* Search Dropdown */}
-          <div ref={searchRef} className={`search-slide-down absolute top-full left-0 w-full bg-white/98 backdrop-blur-2xl shadow-xl overflow-hidden ${isSearchActive ? 'max-h-[500px] border-t opacity-100' : 'max-h-0 opacity-0 pointer-events-none'}`}>
-            <div className="max-w-3xl mx-auto px-6 py-4 md:py-6">
-              <div className="relative group">
+          <div ref={searchRef} className={`search-slide-down absolute top-full left-0 w-full bg-white shadow-xl overflow-hidden ${isSearchActive ? 'max-h-[500px] border-t opacity-100' : 'max-h-0 opacity-0 pointer-events-none'}`}>
+            <div className="max-w-3xl mx-auto px-6 py-6">
+              <div className="relative">
                 <input 
                   autoFocus={isSearchActive}
                   type="text" 
-                  placeholder="Search our pieces..."
-                  className="w-full bg-transparent text-gray-900 border-b border-gray-100 py-1.5 md:py-2 px-8 focus:border-[#065F46] outline-none text-sm md:text-base font-medium transition-all placeholder:text-gray-300 placeholder:italic"
+                  placeholder="Search our collection..."
+                  className="w-full bg-transparent text-gray-900 border-b border-gray-100 py-3 px-8 focus:border-[#065F46] outline-none text-base font-medium transition-all"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <Search size={16} className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-[#065F46] transition-colors" />
+                <Search size={18} className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-300" />
               </div>
-              {searchResults.length > 0 && (
-                <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3 animate-fade-in-up">
-                  {searchResults.map(p => (
-                    <Link key={p.id} to={`/product/${p.id}`} onClick={() => setIsSearchActive(false)} className="group flex items-center gap-2 p-1.5 hover:bg-gray-50 rounded-lg transition-all border border-transparent hover:border-gray-100">
-                      <img src={p.image} className="w-8 h-10 object-cover rounded-md shadow-xs" alt={p.name} />
-                      <div className="overflow-hidden">
-                        <div className="text-[10px] font-bold text-gray-800 truncate">{p.name}</div>
-                        <div className="text-[#065F46] font-black text-[9px]">৳ {p.price.toLocaleString()}</div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              )}
             </div>
           </div>
         </header>
 
-        {/* Main Content Area */}
+        {/* Side Cart Drawer */}
+        <div className={`fixed inset-0 z-[120] transition-opacity duration-500 ${isCartOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsCartOpen(false)}></div>
+          <div className={`absolute right-0 top-0 bottom-0 w-full max-w-[420px] bg-white shadow-2xl transition-transform duration-500 transform ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+            <div className="flex flex-col h-full">
+              <div className="p-6 bg-[#065F46] text-white flex justify-between items-center shadow-lg">
+                <div className="flex items-center gap-3">
+                  <img src={LOGO_URL} className="h-8 w-8 rounded-full bg-white p-0.5 border border-amber-400" alt="Nashwa" />
+                  <span className="text-xl font-bold brand-font uppercase tracking-widest">Your Bag</span>
+                  <span className="bg-white/20 px-2 py-0.5 rounded text-[10px] font-black">{cartItemCount}</span>
+                </div>
+                <button onClick={() => setIsCartOpen(false)} className="p-2 hover:bg-white/10 rounded-full"><X size={24} /></button>
+              </div>
+
+              <div className="flex-grow overflow-y-auto custom-scrollbar p-6 space-y-6">
+                {cart.length > 0 ? (
+                  cart.map((item, idx) => (
+                    <div key={`${item.id}-${idx}`} className="flex gap-4 group animate-fade-in">
+                      <img src={item.image} className="w-20 h-24 object-cover rounded-xl shadow-sm border border-gray-100" alt={item.name} />
+                      <div className="flex-grow flex flex-col">
+                        <div className="flex justify-between items-start mb-1">
+                          <h4 className="font-bold text-sm text-gray-900 line-clamp-1">{item.name}</h4>
+                          <button onClick={() => removeFromCart(item.id, item.selectedOptions)} className="text-gray-300 hover:text-red-500 transition-colors"><Trash2 size={16} /></button>
+                        </div>
+                        <div className="mt-auto flex justify-between items-center">
+                          <div className="flex items-center gap-4 bg-gray-50 rounded-lg px-2 py-1">
+                            <button onClick={() => updateQuantity(item.id, -1, item.selectedOptions)} className="text-gray-400 hover:text-[#065F46]" disabled={item.quantity <= 1}><Minus size={14} /></button>
+                            <span className="text-xs font-black w-4 text-center">{item.quantity}</span>
+                            <button onClick={() => updateQuantity(item.id, 1, item.selectedOptions)} className="text-gray-400 hover:text-[#065F46]"><Plus size={14} /></button>
+                          </div>
+                          <span className="text-[#065F46] font-black text-sm">৳ {(item.price * item.quantity).toLocaleString()}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="h-full flex flex-col items-center justify-center text-center">
+                    <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-6">
+                      <ShoppingBag size={40} className="text-gray-200" />
+                    </div>
+                    <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">Bag is empty</p>
+                  </div>
+                )}
+              </div>
+
+              {cart.length > 0 && (
+                <div className="p-6 border-t bg-gray-50 space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs font-black text-gray-400 uppercase tracking-widest">Subtotal</span>
+                    <span className="text-2xl font-black text-[#065F46] brand-font">৳ {cartTotal.toLocaleString()}</span>
+                  </div>
+                  <Link to="/checkout" onClick={() => setIsCartOpen(false)} className="block w-full bg-[#065F46] text-white py-4 rounded-xl font-bold text-center hover:bg-black transition-all shadow-xl uppercase tracking-widest text-xs">Checkout</Link>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Main Content */}
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Home addToCart={addToCart} wishlist={wishlist} toggleWishlist={toggleWishlist} />} />
@@ -376,72 +397,54 @@ const App: React.FC = () => {
         </main>
 
         {/* Footer */}
-        <footer className="bg-[#021410] text-gray-400 pt-16 pb-8 px-4 md:pt-24 md:px-8 mt-12 border-t-8 border-amber-600">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16">
+        <footer className="bg-[#021410] text-gray-400 pt-16 pb-8 px-4 border-t-8 border-amber-600">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
             <div className="space-y-6">
-              <Link to="/">
-                <img src={LOGO_URL} alt={CONTACT_INFO.name} className="h-14 w-14 rounded-2xl object-contain shadow-2xl brightness-110" />
+              <Link to="/" className="inline-block">
+                <img src={LOGO_URL} alt={CONTACT_INFO.name} className="h-16 w-16 rounded-full bg-white p-1 shadow-2xl border-2 border-amber-500" />
               </Link>
-              <p className="text-sm md:text-base leading-relaxed opacity-70 font-medium">Nashwa is your premium destination for elegance and style in Bangladesh. Quality handcrafted for the modern woman.</p>
-              <div className="flex gap-5">
-                 <a href={CONTACT_INFO.facebookUrl} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-full hover:bg-amber-600 hover:text-white transition-all"><Facebook size={20} /></a>
-                 <a href="#" className="p-3 bg-white/5 rounded-full hover:bg-amber-600 hover:text-white transition-all"><Instagram size={20} /></a>
+              <p className="text-sm leading-relaxed opacity-70">Nashwa is your premium destination for elegance and style in Bangladesh. Quality handcrafted for the modern woman.</p>
+              <div className="flex gap-4">
+                 <a href={CONTACT_INFO.facebookUrl} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-full hover:bg-amber-600 transition-all"><Facebook size={20} className="text-white" /></a>
               </div>
             </div>
             <div>
-              <h4 className="text-white font-black mb-6 uppercase tracking-[0.3em] text-[11px] md:text-xs robotic-font border-b border-amber-600/30 pb-2">Catalog_Index</h4>
-              <ul className="space-y-4 text-xs font-bold uppercase tracking-widest robotic-font opacity-60">
-                <li><Link to="/shop" className="hover:text-amber-500 transition-colors">All_Products</Link></li>
+              <h4 className="text-white font-black mb-6 uppercase tracking-[0.3em] text-[11px] border-b border-amber-600/30 pb-2">Catalog</h4>
+              <ul className="space-y-4 text-xs font-bold uppercase tracking-widest opacity-60">
+                <li><Link to="/shop" className="hover:text-amber-500 transition-colors">All Products</Link></li>
                 <li><Link to="/shop?cat=Clothing" className="hover:text-amber-500 transition-colors">Clothing</Link></li>
                 <li><Link to="/shop?cat=Jewelry" className="hover:text-amber-500 transition-colors">Jewelry</Link></li>
-                <li><Link to="/shop?cat=Accessories" className="hover:text-amber-500 transition-colors">Accessories</Link></li>
-                <li><Link to="/shop?cat=Shoes" className="hover:text-amber-500 transition-colors">Shoes</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="text-white font-black mb-6 uppercase tracking-[0.3em] text-[11px] md:text-xs robotic-font border-b border-amber-600/30 pb-2">Support_Center</h4>
+              <h4 className="text-white font-black mb-6 uppercase tracking-[0.3em] text-[11px] border-b border-amber-600/30 pb-2">Support</h4>
               <ul className="space-y-5 text-sm font-medium">
-                <li className="flex items-center gap-3">
-                  <MapPin size={18} className="text-amber-600 shrink-0" /> 
-                  <span className="opacity-80">{CONTACT_INFO.address}</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <Phone size={18} className="text-amber-600 shrink-0" /> 
-                  <a href={`tel:${CONTACT_INFO.phone}`} className="opacity-80 hover:text-amber-400 transition-colors">{CONTACT_INFO.phone}</a>
-                </li>
-                <li className="flex items-center gap-3">
-                  <Mail size={18} className="text-amber-600 shrink-0" /> 
-                  <a href={`mailto:${CONTACT_INFO.email}`} className="opacity-80 underline underline-offset-4 decoration-amber-600/30 hover:text-amber-400 transition-colors">{CONTACT_INFO.email}</a>
-                </li>
+                <li className="flex items-center gap-3"><MapPin size={18} className="text-amber-600" /> <span>{CONTACT_INFO.address}</span></li>
+                <li className="flex items-center gap-3"><Phone size={18} className="text-amber-600" /> <a href={`tel:${CONTACT_INFO.phone}`}>{CONTACT_INFO.phone}</a></li>
+                <li className="flex items-center gap-3"><Mail size={18} className="text-amber-600" /> <a href={`mailto:${CONTACT_INFO.email}`}>{CONTACT_INFO.email}</a></li>
               </ul>
             </div>
             <div>
-               <h4 className="text-white font-black mb-6 uppercase tracking-[0.3em] text-[11px] md:text-xs robotic-font border-b border-amber-600/30 pb-2">Payment_Nodes</h4>
+               <h4 className="text-white font-black mb-6 uppercase tracking-[0.3em] text-[11px] border-b border-amber-600/30 pb-2">Payment</h4>
                <div className="flex flex-wrap gap-3">
-                 <div className="bg-white/95 px-4 py-2 rounded-xl text-xs font-black text-[#e2136e] shadow-lg">bKash</div>
-                 <div className="bg-white/95 px-4 py-2 rounded-xl text-xs font-black text-[#ed1c24] shadow-lg">Nagad</div>
-                 <div className="bg-white/95 px-4 py-2 rounded-xl text-xs font-black text-[#065F46] shadow-lg">COD</div>
+                 <div className="bg-white/95 px-4 py-2 rounded-xl text-xs font-black text-[#e2136e]">bKash</div>
+                 <div className="bg-white/95 px-4 py-2 rounded-xl text-xs font-black text-[#ed1c24]">Nagad</div>
                </div>
                <div className="mt-8">
                  <Link to="/admin" className="inline-flex items-center gap-2 text-xs font-black text-amber-500 uppercase tracking-widest hover:underline">
-                   <LayoutDashboard size={14} /> Access Backend Dashboard
+                   <LayoutDashboard size={14} /> Backend Access
                  </Link>
                </div>
             </div>
           </div>
           <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-6 text-[10px] uppercase tracking-[0.3em] font-black">
-             <p className="opacity-40">&copy; {new Date().getFullYear()} Nashwa Premium Fashion.</p>
-             <div className="flex flex-wrap justify-center gap-6 opacity-60">
-               <Link to="/privacy" className="hover:text-amber-500">Privacy</Link>
-               <Link to="/terms" className="hover:text-amber-500">Terms</Link>
-               <Link to="/shipping-policy" className="hover:text-amber-500">Shipping</Link>
-             </div>
+             <p className="opacity-40">&copy; {new Date().getFullYear()} Nashwa Fashion House.</p>
           </div>
         </footer>
 
         {/* Floating Actions */}
         <div className="fixed bottom-6 right-6 z-[100] flex flex-col gap-4">
-          <button onClick={scrollToTopFunc} className={`bg-white text-[#065F46] p-4 rounded-full shadow-2xl transition-all transform ${showScrollTop ? 'scale-100' : 'scale-0 pointer-events-none'}`}><ArrowUp size={24} /></button>
+          <button onClick={scrollToTopFunc} className={`bg-white text-[#065F46] p-4 rounded-full shadow-2xl transition-all transform ${showScrollTop ? 'scale-100' : 'scale-0'}`}><ArrowUp size={24} /></button>
           
           <button 
             onClick={() => setIsCartOpen(!isCartOpen)} 

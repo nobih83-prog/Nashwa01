@@ -6,6 +6,12 @@ export const COLORS = {
   accent: '#D97706', 
 };
 
+/**
+ * Custom SVG Logo for Nashwa
+ * Features: Emerald Green Circle, Gold Border, Elegant Serif "N"
+ */
+export const LOGO_URL = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="%23065F46" stroke="%23D97706" stroke-width="2"/><text x="50" y="65" font-family="Playfair Display, Georgia, serif" font-size="50" font-weight="bold" fill="white" text-anchor="middle">N</text></svg>`;
+
 export const CONTACT_INFO = {
   name: "Nashwa",
   phone: "01718952852",
@@ -76,11 +82,11 @@ export const MOCK_PRODUCTS: Product[] = [
     name: 'Luxury Designer Bag',
     price: 5500,
     category: 'Accessories',
-    image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=800&q=80',
     images: [
+      'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=800&q=80',
       'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=800&q=80'
+      'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=800&q=80'
     ],
     description: 'A masterpiece of structural design and premium leather, this handbag is the ultimate statement accessory for the modern woman.',
     variations: [
@@ -88,7 +94,7 @@ export const MOCK_PRODUCTS: Product[] = [
         name: 'Color',
         type: 'color',
         options: [
-          { label: '#000000', image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80' },
+          { label: '#000000', image: 'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=800&q=80' },
           { label: '#8B4513', image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=800&q=80' }
         ]
       }
