@@ -17,9 +17,11 @@ export interface Product {
   price: number;
   category: 'Clothing' | 'Accessories' | 'Jewelry' | 'Shoes';
   image: string;
-  images?: string[]; // Array for product gallery
+  images?: string[]; 
   description: string;
   variations?: Variation[];
+  isNew?: boolean;
+  isBestSeller?: boolean;
 }
 
 export interface CartItem extends Product {

@@ -1,17 +1,32 @@
 
 import React, { useState, useEffect } from 'react';
-import { LayoutDashboard, Users, Package, TrendingUp, Phone, MapPin, Mail, Clock, Search, ChevronRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { LayoutDashboard, Users, Package, TrendingUp, Phone, MapPin, Mail, Clock, Search, ChevronRight, Lock } from 'lucide-react';
 import { Order } from '../types';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
 const Admin: React.FC = () => {
+  const navigate = useNavigate();
   const [orders, setOrders] = useState<Order[]>([]);
   const [search, setSearch] = useState('');
+  const [isAuthorized, setIsAuthorized] = useState(false);
 
   useEffect(() => {
-    const savedOrders = JSON.parse(localStorage.getItem('nashwa_orders') || '[]');
-    setOrders(savedOrders);
-  }, []);
+    const role = localStorage.getItem('nashwa_role');
+    if (role !== 'admin') {
+      navigate('/login');
+    } else {
+      setIsAuthorized(true);
+      const savedOrders = JSON.parse(localStorage.getItem('nashwa_orders') || '[]');
+      setOrders(savedOrders);
+    }
+  }, [navigate]);
+
+  if (!isAuthorized) return (
+    <div className="min-h-[60vh] flex flex-col items-center justify-center">
+       <div className="animate-spin rounded-full h-12 w-12 border-4 border-[#065F46] border-t-transparent"></div>
+    </div>
+  );
 
   const totalRevenue = orders.reduce((sum, o) => sum + o.total, 0);
   const totalCustomers = new Set(orders.map(o => o.customer.phone)).size;
@@ -33,14 +48,16 @@ const Admin: React.FC = () => {
     <div className="max-w-7xl mx-auto px-4 py-12">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
         <div>
-          <h1 className="text-4xl font-bold mb-2 brand-font">Backend Dashboard</h1>
-          <p className="text-gray-500 font-medium">Customer Details & Order Logistics</p>
+          <h1 className="text-4xl font-bold mb-2 brand-font flex items-center gap-4 uppercase tracking-widest">
+            <Lock size={32} className="text-[#065F46]" /> Admin Console
+          </h1>
+          <p className="text-gray-500 font-medium">Confidential Customer & Order Records</p>
         </div>
         <div className="flex items-center gap-4 bg-white p-2 rounded-2xl shadow-sm border w-full md:w-auto">
           <Search className="text-gray-400 ml-2" size={20} />
           <input 
             type="text" 
-            placeholder="Search customers or order ID..."
+            placeholder="Search database..."
             className="outline-none bg-transparent py-2 w-full md:w-64 font-bold"
             value={search}
             onChange={e => setSearch(e.target.value)}
@@ -50,15 +67,15 @@ const Admin: React.FC = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
         <div className="bg-[#065F46] p-8 rounded-3xl shadow-xl text-white">
-          <div className="text-green-200 text-xs font-black uppercase tracking-widest mb-2">Total Sales Revenue</div>
+          <div className="text-green-200 text-xs font-black uppercase tracking-widest mb-2">Total Sales Volume</div>
           <div className="text-4xl font-black">৳ {totalRevenue.toLocaleString()}</div>
         </div>
         <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
-          <div className="text-gray-400 text-xs font-black uppercase tracking-widest mb-2">Active Orders</div>
+          <div className="text-gray-400 text-xs font-black uppercase tracking-widest mb-2">Total Orders</div>
           <div className="text-4xl font-black text-gray-900">{orders.length}</div>
         </div>
         <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
-          <div className="text-gray-400 text-xs font-black uppercase tracking-widest mb-2">Total Customers</div>
+          <div className="text-gray-400 text-xs font-black uppercase tracking-widest mb-2">Unique Customers</div>
           <div className="text-4xl font-black text-gray-900">{totalCustomers}</div>
         </div>
       </div>
@@ -66,8 +83,8 @@ const Admin: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
         <div className="lg:col-span-2 space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold brand-font flex items-center gap-3">
-              <Package className="text-[#065F46]" /> Customer Orders
+            <h2 className="text-2xl font-bold brand-font flex items-center gap-3 uppercase">
+              <Package className="text-[#065F46]" /> Recent Transactions
             </h2>
           </div>
           
@@ -108,7 +125,7 @@ const Admin: React.FC = () => {
                     
                     <div className="flex flex-col justify-between items-end gap-6 text-right md:min-w-[180px]">
                       <div>
-                        <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Grand Total</div>
+                        <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Total Value</div>
                         <div className="text-3xl font-black text-[#065F46] brand-font">৳ {order.total.toLocaleString()}</div>
                       </div>
                       <div className={`px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] shadow-sm ${
@@ -144,8 +161,8 @@ const Admin: React.FC = () => {
 
         <aside className="space-y-8">
           <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100">
-            <h3 className="text-xl font-bold mb-8 brand-font flex items-center gap-3">
-              <TrendingUp className="text-[#065F46]" /> Sales Analytics
+            <h3 className="text-xl font-bold mb-8 brand-font flex items-center gap-3 uppercase">
+              <TrendingUp className="text-[#065F46]" /> Performance
             </h3>
             <div className="h-[250px] w-full">
               <ResponsiveContainer width="100%" height="100%">
@@ -165,20 +182,11 @@ const Admin: React.FC = () => {
                 </BarChart>
               </ResponsiveContainer>
             </div>
-            <div className="mt-6 space-y-3">
-               <div className="flex justify-between items-center text-xs font-bold uppercase tracking-widest text-gray-400">
-                  <span>Growth Velocity</span>
-                  <span className="text-emerald-600">+18%</span>
-               </div>
-               <div className="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
-                  <div className="bg-[#065F46] h-full w-[18%]"></div>
-               </div>
-            </div>
           </div>
 
           <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100">
-            <h3 className="text-xl font-bold mb-6 brand-font flex items-center gap-3">
-              <Users className="text-[#065F46]" /> VIP Customers
+            <h3 className="text-xl font-bold mb-6 brand-font flex items-center gap-3 uppercase">
+              <Users className="text-[#065F46]" /> Top Customers
             </h3>
             <div className="space-y-4">
               {orders.slice(0, 5).map((o, i) => (

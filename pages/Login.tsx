@@ -5,11 +5,12 @@ import { Mail, Lock, User, ArrowRight, Eye, EyeOff, Facebook, Smartphone } from 
 import { CONTACT_INFO, LOGO_URL } from '../constants';
 
 interface LoginProps {
-  onLogin: (status: boolean) => void;
+  onLogin: (status: boolean, role?: string) => void;
   isLoggedIn: boolean;
+  isAdmin?: boolean;
 }
 
-const Login: React.FC<LoginProps> = ({ onLogin, isLoggedIn }) => {
+const Login: React.FC<LoginProps> = ({ onLogin, isLoggedIn, isAdmin }) => {
   const navigate = useNavigate();
   const [isRegistering, setIsRegistering] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -27,13 +28,16 @@ const Login: React.FC<LoginProps> = ({ onLogin, isLoggedIn }) => {
     // Mock authentication
     setTimeout(() => {
       setLoading(false);
-      onLogin(true);
-      navigate('/');
+      // If email is admin@nashwa.com, login as admin
+      const role = formData.email.toLowerCase() === 'admin@nashwa.com' ? 'admin' : 'customer';
+      onLogin(true, role);
+      navigate(role === 'admin' ? '/admin' : '/');
     }, 1500);
   };
 
   const handleLogout = () => {
-    onLogin(false);
+    onLogin(false, 'customer');
+    localStorage.removeItem('nashwa_role');
     navigate('/');
   };
 
@@ -41,10 +45,16 @@ const Login: React.FC<LoginProps> = ({ onLogin, isLoggedIn }) => {
     return (
       <div className="max-w-7xl mx-auto px-4 py-24 text-center min-h-[60vh] flex flex-col items-center justify-center">
         <img src={LOGO_URL} alt="Nashwa" className="h-24 w-24 mx-auto mb-8 rounded-full border-4 border-amber-400 p-1 bg-white shadow-2xl" />
-        <h2 className="text-4xl font-bold mb-4 brand-font uppercase tracking-widest">Welcome back!</h2>
-        <p className="text-gray-500 mb-10 max-w-md mx-auto">Manage your luxury collection and orders seamlessly.</p>
+        <h2 className="text-4xl font-bold mb-4 brand-font uppercase tracking-widest">{isAdmin ? 'Admin Portal' : 'Welcome back!'}</h2>
+        <p className="text-gray-500 mb-10 max-w-md mx-auto">
+          {isAdmin ? 'Manage Nashwa collections, customers and orders from this secure dashboard.' : 'Manage your luxury collection and orders seamlessly.'}
+        </p>
         <div className="flex flex-col sm:flex-row gap-4">
-           <button onClick={() => navigate('/')} className="bg-[#065F46] text-white px-10 py-4 rounded-xl font-bold hover:bg-black transition-all shadow-lg">Start Shopping</button>
+           {isAdmin ? (
+             <button onClick={() => navigate('/admin')} className="bg-[#065F46] text-white px-10 py-4 rounded-xl font-bold hover:bg-black transition-all shadow-lg">Enter Dashboard</button>
+           ) : (
+             <button onClick={() => navigate('/')} className="bg-[#065F46] text-white px-10 py-4 rounded-xl font-bold hover:bg-black transition-all shadow-lg">Start Shopping</button>
+           )}
            <button onClick={handleLogout} className="bg-white text-red-500 border border-red-100 px-10 py-4 rounded-xl font-bold hover:bg-red-50 transition-all">Logout</button>
         </div>
       </div>
@@ -104,6 +114,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, isLoggedIn }) => {
                 <input 
                   required
                   type="text" 
+                  placeholder="admin@nashwa.com for admin access"
                   className="w-full pl-12 pr-4 py-4 rounded-2xl bg-gray-50 border-2 border-transparent focus:border-[#065F46] outline-none transition-all font-medium"
                   value={formData.email}
                   onChange={e => setFormData({...formData, email: e.target.value})}
@@ -146,6 +157,12 @@ const Login: React.FC<LoginProps> = ({ onLogin, isLoggedIn }) => {
               )}
             </button>
           </form>
+          
+          {!isRegistering && (
+             <p className="mt-8 text-center text-[10px] font-black text-gray-300 uppercase tracking-[0.2em]">
+               Administrator? Use admin project email
+             </p>
+          )}
         </div>
       </div>
     </div>
